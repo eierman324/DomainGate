@@ -1,0 +1,18 @@
+name: DomainGate
+version: '1.0.0'
+main: dev.domaingate.DomainGate
+api-version: '1.21'
+description: Blocks player connections based on the domain they connect from.
+authors:
+  - DomainGate
+
+commands:
+  domaingate:
+    description: Reload the DomainGate configuration.
+    usage: /domaingate reload
+    permission: domaingate.reload
+
+permissions:
+  domaingate.reload:
+    description: Allows reloading the DomainGate config.
+    default: op

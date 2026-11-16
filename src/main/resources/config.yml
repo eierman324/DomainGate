@@ -1,0 +1,43 @@
+# DomainGate Configuration
+#
+# Jede Regel hat eine "domain" und beliebig viele Aktionen:
+#
+#   block: true          - Verbindung blockieren
+#   message: "..."       - Kick-Nachricht (wird mit block verwendet)
+#   redirect: "host:port"- Spieler auf anderen Server weiterleiten (hat Vorrang vor block)
+#   motd: "..."          - Eigene MOTD wenn der Server von dieser Domain angepingt wird
+#
+# Nachrichten und MOTD unterstuetzen MiniMessage-Tags (<red>, <bold>, <newline>, ...)
+# und Legacy-Farbcodes (&c, &l, ...).
+#
+# Wenn der Hostname, ueber den jemand verbindet/pingt, die angegebene
+# "domain" ENTHAELT, greift die Regel.
+# Beispiel: "abc.de" trifft mc.abc.de, play.abc.de:8765, abc.de, etc.
+
+rules:
+  # Verbindung blockieren + eigene MOTD
+  - domain: "blocked.example.com"
+    block: true
+    message: "<red><bold>Zugang verweigert!</bold>\n<gray>Bitte nutze play.example.com."
+    motd: "<red>Diese Domain ist gesperrt.\n<gray>Nutze play.example.com"
+
+  # Nur MOTD anpassen, Verbindung erlauben
+  - domain: "vip.example.com"
+    motd: "<gold><bold>VIP-Server\n<green>Willkommen, VIP!"
+
+  # Weiterleitung auf anderen Server + eigene MOTD
+  - domain: "old.example.com"
+    redirect: "play.example.com:25565"
+    motd: "<yellow>Server umgezogen!\n<gray>Weiterleitung zu play.example.com..."
+
+  # Nur weiterleiten, kein MOTD
+  - domain: "redirect.example.com"
+    redirect: "play.example.com"
+
+# Whitelist-Modus:
+#   true  = Verbindungen ohne passende Regel werden erlaubt (Blacklist-Modus, Standard)
+#   false = Verbindungen ohne passende Regel werden blockiert (Whitelist-Modus)
+allow-unmatched: true
+
+# Nachricht fuer blockierte Verbindungen ohne eigene message (oder im Whitelist-Modus)
+default-block-message: "<red>Verbindung ueber diese Domain ist nicht erlaubt."
